@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="contract_reg_form" model="ir.ui.view">
+        <field name="name">Contract</field>
+        <field name="model">building.contract</field>
+        <field name="arch" type="xml">
+            <form string="Contract">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                    <button name="compute_installment" string="Compute Installment" type="object" class="oe_highlight"
+                            attrs="{'invisible':[('state','!=','draft')]}"/>
+                    <button name="confirm" string="Confirm" type="object" class="oe_highlight"
+                            attrs="{'invisible':[('state','!=','add installment')]}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="customer_id"/>
+                            <field name="building_id"/>
+                            <field name="lease_amount"/>
+                            <field name="no_of_installment"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="from_date"/>
+                            <field name="to_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Installment Details">
+                            <field name="installment_lines"
+                                   context="{'default_from_date':from_date,'default_to_date':to_date,'default_building_id':building_id,'default_customer_id':customer_id}" >
+                                <tree editable="bottom" decoration-success="payment_status == 'paid'" decoration-bf="1" decoration-warning="payment_status == 'partial'">
+                                    <field name="from_date" invisible="1"/>
+                                    <field name="to_date" invisible="1"/>
+                                    <field name="date"/>
+                                    <field name="amount"/>
+                                    <field name="tax_id" widget="many2many_tags"/>
+                                    <field name="state" invisible="1"/>
+                                    <field name="payment_status" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="contract_reg_tree" model="ir.ui.view">
+        <field name="name">Contract</field>
+        <field name="model">building.contract</field>
+        <field name="arch" type="xml">
+            <tree string="Contract">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="from_date"/>
+                <field name="to_date"/>
+                <field name="building_id"/>
+                <field name="lease_amount"/>
+                <field name="no_of_installment"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="contract_reg_action" model="ir.actions.act_window">
+        <field name="name">Contract</field>
+        <field name="res_model">building.contract</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Contract Created!
+            </p>
+        </field>
+    </record>
+
+    <record id="installment_form" model="ir.ui.view">
+        <field name="name">Installment</field>
+        <field name="model">installment.lines.details</field>
+        <field name="arch" type="xml">
+            <form string="Installment">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                    <button name="create_invoice" type="object" class="oe_highlight" string="Create Invoice"
+                            attrs="{'invisible':[('state','in',('draft','done','invoiced'))]}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+
+
+                    <div class="oe_button_box" name="button_box">
+                        <button name="view_invoice"
+                                attrs="{'invisible': [('invoice_count', '=', False)]}"
+                                class="oe_stat_button"
+                                type="object" icon="fa-pencil-square-o" string="Invoice">
+                        </button>
+                        <button name="view_so"
+                                attrs="{'invisible': [('sale_count', '=', False)]}"
+                                class="oe_stat_button"
+                                type="object" icon="fa-dollar" string="Sale Order">
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Paid"
+                            attrs="{'invisible': [('payment_status', '!=', 'paid')]}"/>
+                    <widget name="web_ribbon" title="Partial"
+                            attrs="{'invisible': [('payment_status', '!=', 'partial')]}"/>
+                    <group>
+                        <group>
+                            <field name="customer_id"/>
+                            <field name="building_id"/>
+                            <field name="date"/>
+                            <field name="amount"/>
+                            <field name="tax_id" widget="many2many_tags"/>
+                        </group>
+                        <group>
+                            <field name="contract_id"/>
+                            <field name="from_date"/>
+                            <field name="to_date"/>
+                            <field name="sale_count" invisible="1"/>
+                            <field name="invoice_count" invisible="1"/>
+                            <field name="sale_id" invisible="1"/>
+                            <field name="invoice_id" invisible="1"/>
+                            <field name="payment_status" widget="badge" decoration-success="payment_status == 'paid'"
+                                   decoration-info="payment_status == 'draft'" decoration-warning="payment_status == 'partial'"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="main_installment_tree" model="ir.ui.view">
+        <field name="name">Installment</field>
+        <field name="model">installment.lines.details</field>
+        <field name="arch" type="xml">
+            <tree string="Contract">
+                <field name="name"/>
+                <field name="contract_id"/>
+                <field name="customer_id"/>
+                <field name="building_id"/>
+                <field name="from_date"/>
+                <field name="to_date"/>
+                <field name="date"/>
+                <field name="amount"/>
+                <field name="state"/>
+                <field name="payment_status"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="installment_action" model="ir.actions.act_window">
+        <field name="name">Installment</field>
+        <field name="res_model">installment.lines.details</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state','!=','draft')]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Installment!
+            </p>
+        </field>
+    </record>
+    <record id="installment_confirmed_action" model="ir.actions.act_window">
+        <field name="name">Installment</field>
+        <field name="res_model">installment.lines.details</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state','!=','confirmed')]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Installment!
+            </p>
+        </field>
+    </record>
+
+    <record id="installment_pending_action" model="ir.actions.act_window">
+        <field name="name">Installment</field>
+        <field name="res_model">installment.lines.details</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state','=','pending')]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Installment!
+            </p>
+        </field>
+    </record>
+
+    <record id="installment_invoiced_action" model="ir.actions.act_window">
+        <field name="name">Installment</field>
+        <field name="res_model">installment.lines.details</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state','=','invoiced')]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Installment!
+            </p>
+        </field>
+    </record>
+    <record id="installment_confirmaction" model="ir.actions.act_window">
+        <field name="name">Installment</field>
+        <field name="res_model">installment.lines.details</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('state','=','confirmed')]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Installment!
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem id="menu_contract"
+              name="Contract" parent="menu_property_root"
+              sequence="1"/>
+    <menuitem id="menu_contract_sub"
+              name="Contract" parent="menu_contract"
+              sequence="1" action="contract_reg_action"/>
+    <!--    <menuitem id="menu_contract_installment"-->
+    <!--              name="Installment" parent="menu_contract"-->
+    <!--              sequence="1" action="installment_action"/>-->
+    <menuitem id="menu_contract_coninstallment_inst"
+              name="Installments" parent="menu_contract"
+              sequence="2"/>
+    <menuitem id="menu_contract_coninstallment"
+              name="All Installments" parent="menu_contract_coninstallment_inst"
+              sequence="1" action="installment_action"/>
+    <menuitem id="menu_contract_confirminstallment"
+              name="Confirmed" parent="menu_contract_coninstallment_inst"
+              sequence="2" action="installment_confirmaction"/>
+    <menuitem id="menu_contract_peninstallment"
+              name="Pending" parent="menu_contract_coninstallment_inst"
+              sequence="3" action="installment_pending_action"/>
+    <menuitem id="menu_contract_invinstallment"
+              name="Invoiced" parent="menu_contract_coninstallment_inst"
+              sequence="4" action="installment_invoiced_action"/>
+</odoo>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="1">
+<!--        <record id="product_1" model="product.template">-->
+<!--            <field name="name">Room Rent</field>-->
+<!--            <field name="type">service</field>-->
+<!--            <field name="invoice_policy">order</field>-->
+<!--        </record>-->
+        <record id="building_seq_id" model="ir.sequence">
+            <field name="name">building.reg.number</field>
+            <field name="code">building.reg.number</field>
+            <field name="prefix">BL</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="mainbuilding_seq_id" model="ir.sequence">
+            <field name="name">main.building.reg.number</field>
+            <field name="code">main.building.reg.number</field>
+            <field name="prefix">MBL</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="building_cont_id" model="ir.sequence">
+            <field name="name">building.contract.number</field>
+            <field name="code">building.contract.number</field>
+            <field name="prefix">CO</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="main_building_cont_id" model="ir.sequence">
+            <field name="name">main.building.contract.number</field>
+            <field name="code">main.building.contract.number</field>
+            <field name="prefix">MCO</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="installment_id" model="ir.sequence">
+            <field name="name">installment.number</field>
+            <field name="code">installment.number</field>
+            <field name="prefix">IN</field>
+            <field name="padding">3</field>
+        </record>
+        <record id="mani_installment_id" model="ir.sequence">
+            <field name="name">main.installment.number</field>
+            <field name="code">main.installment.number</field>
+            <field name="prefix">MIN</field>
+            <field name="padding">3</field>
+        </record>
+    </data>
+</odoo>

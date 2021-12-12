@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <record id="hotel_room_reg_main_form" model="ir.ui.view">
+        <field name="name">Maintenance Building Registration</field>
+        <field name="model">maintenance.building.registration</field>
+        <field name="arch" type="xml">
+            <form string="Maintenance Building Registration">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <field name="image" widget="image" class="oe_avatar"/>
+                    <group>
+                        <group>
+<!--                            <field name="name"/>-->
+                            <field name="owner_id"/>
+                            <field name="building_no"/>
+                            <field name="plot_no"/>
+                            <field name="no_of_blocks"/>
+                            <label for="city" string="Address"/>
+                            <div class="o_address_format">
+                                <field name="country_id" placeholder="Country" class="o_address_country"/>
+                                <field name="state_id" class="o_address_state" placeholder="State"/>
+                                <field name="city" placeholder="City" class="o_address_city"/>
+                            </div>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="area_of_land"/>
+                            <field name="estimate_value"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="building_reg_main_tree" model="ir.ui.view">
+        <field name="name">Maintenance Building Registration</field>
+        <field name="model">maintenance.building.registration</field>
+        <field name="arch" type="xml">
+            <tree string="Maintenance Building Registration">
+                <field name="name"/>
+                <field name="building_no"/>
+                <field name="no_of_blocks"/>
+                <field name="area_of_land"/>
+                <field name="estimate_value"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+<!--    <record id="building_reg_action" model="ir.actions.act_window">-->
+<!--        <field name="name">Building Registration</field>-->
+<!--        <field name="res_model">building.registration</field>-->
+<!--        <field name="view_mode">tree,form</field>-->
+<!--        <field name="help" type="html">-->
+<!--            <p class="o_view_nocontent_smiling_face">-->
+<!--                No Building Registered!-->
+<!--            </p>-->
+<!--        </field>-->
+<!--    </record>-->
+<!--    <record id="building_reg_vac_action" model="ir.actions.act_window">-->
+<!--        <field name="name">Building Registration</field>-->
+<!--        <field name="res_model">building.registration</field>-->
+<!--        <field name="view_mode">tree,form</field>-->
+<!--        <field name="domain">[('state','=','vaccant')]</field>-->
+<!--        <field name="help" type="html">-->
+<!--            <p class="o_view_nocontent_smiling_face">-->
+<!--                No Vaccant Building!-->
+<!--            </p>-->
+<!--        </field>-->
+<!--    </record>-->
+    <record id="building_reg_main_action" model="ir.actions.act_window">
+        <field name="name">Maintenance Building Registration</field>
+        <field name="res_model">maintenance.building.registration</field>
+        <field name="view_mode">tree,form</field>
+<!--        <field name="domain">[('state','=','occupied')]</field>-->
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No Maintenance Building Registered!
+            </p>
+        </field>
+    </record>
+
+
+    <menuitem id="menu_property_main_root"
+              name="EnzManagement"
+              sequence="35"/>
+    <menuitem id="menu_property_main_reg"
+              name="Registration" parent="menu_property_main_root"
+              sequence="1"/>
+    <menuitem id="menu_property_reg_main_sub"
+              name="Property" parent="menu_property_main_reg"
+              sequence="1" action="building_reg_main_action"/>
+<!--    <menuitem id="menu_property_reg_sub_vac"-->
+<!--              name="Vaccant" parent="menu_property_reg"-->
+<!--              sequence="2" action="building_reg_vac_action"/>-->
+<!--    <menuitem id="menu_property_reg_sub_occ"-->
+<!--              name="Occupied" parent="menu_property_reg"-->
+<!--              sequence="2" action="building_reg_occ_action"/>-->
+</odoo>

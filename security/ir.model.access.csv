@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_building_registration,building.registration.group_user,model_building_registration,base.group_user,1,1,1,1
+access_building_contract,building.contract.group_user,model_building_contract,base.group_user,1,1,1,1
+access_installment_lines_details,installment.lines.details.group_user,model_installment_lines_details,base.group_user,1,1,1,1
+access_maintenance_building_registration,maintenance.building.registration.group_user,model_maintenance_building_registration,base.group_user,1,1,1,1
+access_main_building_contract,main.building.contract.group_user,model_main_building_contract,base.group_user,1,1,1,1
+access_main_installment_lines_details,main.installment.lines.details.group_user,model_main_installment_lines_details,base.group_user,1,1,1,1
